@@ -4,44 +4,41 @@ import java.util.*;
 
 public class laptor {
 
-    public static Map<String, String> laptor = new HashMap<>();
-    private static Scanner s = new Scanner(System.in);
-    public static String model = "";
-    public static int count = 0;
-
-    public  Map<String, String> addLaptor(){
-        System.out.println("Введите модель ноутбука и его характеристики.");
-        while (count != 4){
-            if (count == 0){
-                System.out.println("Введите модель ноутбука: ");
-                model = s.next();
-                laptor.put(model, "model");
-                count +=1;
-            }
-            if (count == 1){
-                System.out.println("Введите обьем озу модели" + "("+ model +"): ");
-                laptor.put(s.next(), model);
-                count +=1;
-            }
-            if (count == 2){
-                System.out.println("Введите объем жестого диска" + "(" + model + "): ");
-                laptor.put(s.next(), model);
-                count +=1;
-            }
-            if (count == 3){
-                System.out.println("Введите операционную систему модели " + "(" + model + "): ");
-                laptor.put(s.next(), model);
-                count += 1;
-            }
-            if (count == 4){
-                System.out.println("Введите цвет ноутбука модели" + "(" + model + "): ");
-                laptor.put(s.next(), model);
-            }
-
-        }
-        count = 0;
-        model = "";
-        System.out.println(laptor);
-        return laptor;
+    public boolean addLaptor() {
+        return false;
     }
-}
+
+    public class Laptop {
+        String brand;
+        int ram;
+        int hdd;
+        String os;
+        String color;
+
+        public Laptop(String brand, int ram, int hdd, String os, String color) {
+            this.brand = brand;
+            this.ram = ram;
+            this.hdd = hdd;
+            this.os = os;
+            this.color = color;
+        }
+
+        @Override
+        public String toString() {
+            return "Laptop{" +
+                    "brand='" + brand + '\'' +
+                    ", ram=" + ram +
+                    ", hdd=" + hdd +
+                    ", os='" + os + '\'' +
+                    ", color='" + color + '\'' +
+                    '}';
+        }
+    }
+
+    public static Set<Laptop> laptops = new HashSet<>();
+        public void model (){
+            laptops.add(new Laptop("Dell", 16, 512, "Windows", "Black"));
+            laptops.add(new Laptop("Apple", 8, 256, "MacOS", "Silver"));
+            laptops.add(new Laptop("Lenovo", 32, 1024, "Windows", "Gray"));
+        }
+    }

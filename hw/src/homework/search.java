@@ -1,62 +1,62 @@
 package homework;
 
 import javax.swing.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class search {
-    public String model = "";
-    public String ozu = "";
-    public String hardDrive = "";
-    public String color = "";
-    public Scanner s = new Scanner(System.in);
-    laptor lap = new laptor();
-    servis ser = new servis();
+    public static void main(String[] args) {
+        Map<String, Object> filters = new HashMap<>();
 
-    public boolean criteria(){
-        Map<String, String> phone = new HashMap<>();
-        System.out.println("1 Введите модель, если не знаете какую, поставьте - : ");
-        model = s.next();
-        if(model.equals("-")){
-            model = null;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Выберите критерии для фильтрации:");
+        System.out.println("1 - ОЗУ");
+        System.out.println("2 - Объем ЖД");
+        System.out.println("3 - Операционная система");
+        System.out.println("4 - Цвет");
+        System.out.println("0 - Завершить выбор");
 
-        }
-        System.out.println("2 Введите озу, если не знаете какой хотите обьем, поставте -: ");
-        ozu = s.next();
-        if (ozu.equals("-")){
-            ozu = null;
-        }
-        System.out.println("3 Введите объем жестого диска, если не знаете какой хотите, поставьте - :");
-        hardDrive = s.next();
-        if(hardDrive.equals("-")){
-            hardDrive = null;
-        }
-        System.out.println("4 Введите цвет, если не знаете, какой хотите, поставьте - : ");
-        color = s.next();
-        if (color.equals("-")){
-            color = null;
+
+        int choice;
+        while (true) {
+            choice = scanner.nextInt();
+            if (choice == 0) {
+                break;
+            }
+            switch (choice) {
+                case 1:
+                    System.out.println("Минимальный объем ОЗУ?");
+                    filters.put("ram", scanner.nextInt());
+                    break;
+                case 2:
+                    System.out.println("Минимальный объем ЖД?");
+                    filters.put("hdd", scanner.nextInt());
+                    break;
+                case 3:
+                    System.out.println("Операционная система?");
+                    filters.put("os", scanner.next());
+                    break;
+                case 4:
+                    System.out.println("Цвет?");
+                    filters.put("color", scanner.next());
+                    break;
+                default:
+                    System.out.println("Неверный выбор. Попробуйте снова.");
+            }
         }
 
-//        if (model.equals(null) & ozu.equals(null) & hardDrive.equals(null) & color.equals(null)){
-//            System.out.println("Недостаточно данных для происка.");
-//            System.exit(0);
-//        }
+        laptor lap = new laptor();
+        Set<laptor.Laptop> filteredLaptops = laptor.laptops.stream()
+                .filter(laptop -> filters.getOrDefault("ram", 0) instanceof Integer && laptop.ram >= (int) filters.getOrDefault("ram", 0))
+                .filter(laptop -> filters.getOrDefault("hdd", 0) instanceof Integer && laptop.hdd >= (int) filters.getOrDefault("hdd", 0))
+                .filter(laptop -> filters.getOrDefault("os", "").equals("") || laptop.os.equalsIgnoreCase((String) filters.getOrDefault("os", "")))
+                .filter(laptop -> filters.getOrDefault("color", "").equals("") || laptop.color.equalsIgnoreCase((String) filters.getOrDefault("color", "")))
+                .collect(Collectors.toSet());
 
-        if (laptor.laptor.containsKey(model)) {
-            System.out.println(phone.put(model, null));
+        System.out.println("Отфильтрованные ноутбуки:");
+        for (laptor.Laptop laptop : filteredLaptops) {
+            System.out.println();
         }
-        else if (laptor.laptor.containsKey(ozu)){
-            System.out.println(laptor.laptor.get(ozu));
-        }
-        else if (laptor.laptor.containsKey(hardDrive)){
-            System.out.println(laptor.laptor.get(hardDrive));
-        }
-        else if(laptor.laptor.containsKey(color)){
-            System.out.println(laptor.laptor.get(color));
-        }
-        return false;
+
     }
-
 }
-
